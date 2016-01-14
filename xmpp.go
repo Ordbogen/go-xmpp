@@ -276,12 +276,6 @@ func cnonce() string {
 }
 
 func (c *Client) init(o *Options) error {
-	if o.Debug {
-		// For debugging: the following causes the plaintext of the connection to be duplicated to stderr.
-		c.p = xml.NewDecoder(tee{c.conn, os.Stderr})
-	} else {
-		c.p = xml.NewDecoder(c.conn)
-	}
 
 	var domain string
 	var user string
@@ -676,7 +670,7 @@ type saslSuccess struct {
 
 type saslFailure struct {
 	XMLName xml.Name `xml:"urn:ietf:params:xml:ns:xmpp-sasl failure"`
-	Any     xml.Name
+	Any     xml.Name `xml:",any"`
 }
 
 // RFC 3920  C.5  Resource binding name space
